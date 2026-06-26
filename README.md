@@ -2,31 +2,54 @@
 
 ## Project Overview
 
-This project presents an end-to-end deep learning approach for the early detection and classification of diabetic retinopathy using retinal fundus images. Diabetic retinopathy is a diabetes-related eye disease that can lead to vision loss if it is not detected and treated at an early stage.
+This project presents an end-to-end deep learning pipeline for the early detection and classification of diabetic retinopathy using retinal fundus images. Diabetic retinopathy is a diabetes-related eye disease that damages the blood vessels in the retina and can lead to vision loss if it is not detected and treated early.
 
-Manual screening of retinal images is time-consuming and depends on the availability of trained ophthalmologists. To support faster and more consistent screening, this project develops a hybrid deep learning model using Xception and BiLSTM.
+Manual screening of retinal images is time-consuming, requires trained ophthalmologists, and can be difficult to scale for large populations. To support faster and more consistent screening, this project develops a hybrid deep learning model using Xception and BiLSTM.
 
-The proposed model uses Xception for spatial feature extraction and BiLSTM for sequential and contextual feature learning. The final classification layer predicts diabetic retinopathy severity levels from retinal fundus images.
+The proposed model uses Xception for spatial feature extraction from retinal fundus images and BiLSTM for sequential and contextual feature learning. The final model classifies retinal images into diabetic retinopathy severity classes.
 
 ---
 
 ## Problem Statement
 
-Existing diabetic retinopathy detection approaches mainly rely on convolutional neural networks for spatial feature extraction. Although CNN-based models can detect important retinal patterns, they may not fully capture contextual relationships between lesion features across severity stages.
+Diabetic retinopathy detection is an important medical image classification problem. Existing approaches mainly use traditional machine learning or CNN-based deep learning models. Traditional methods depend heavily on handcrafted features, while CNN models mostly focus on spatial feature extraction.
 
-This project addresses that limitation by combining:
+Although CNN-based models can detect important retinal abnormalities such as microaneurysms, haemorrhages, and exudates, they may not fully capture contextual relationships between extracted lesion patterns. This limitation can affect classification performance, especially when distinguishing between similar diabetic retinopathy severity stages.
+
+This project addresses the problem by combining:
 
 * Xception for efficient spatial feature extraction
 * BiLSTM for contextual and sequential feature learning
-* Deep learning-based classification for diabetic retinopathy grading
+* Softmax classification for diabetic retinopathy severity prediction
 
-The main goal is to improve automated diabetic retinopathy detection and support early screening decisions.
+The main goal is to build an automated diabetic retinopathy detection system that can support early screening and reduce manual workload.
+
+---
+
+## Research Aim
+
+The aim of this project is to develop a hybrid Xception–BiLSTM deep learning model for diabetic retinopathy classification using retinal fundus images.
+
+The model is designed to improve classification reliability by combining spatial feature extraction with sequential contextual learning.
+
+---
+
+## Research Objectives
+
+The main objectives of this project are:
+
+1. To preprocess retinal fundus images for deep learning-based classification.
+2. To handle class imbalance by removing a highly underrepresented class and relabelling the remaining classes.
+3. To apply image augmentation to improve model generalization.
+4. To develop a hybrid Xception–BiLSTM model for diabetic retinopathy detection.
+5. To evaluate the model using accuracy, precision, recall, F1-score, confusion matrix, and AUC score.
+6. To analyse prediction results and identify limitations for future improvement.
 
 ---
 
 ## Proposed Hybrid Framework
 
-The proposed framework includes dataset preprocessing, Xception-based feature extraction, BiLSTM sequential learning, classification layers, diabetic retinopathy prediction, and performance evaluation.
+The proposed framework includes dataset preprocessing, Xception-based spatial feature extraction, BiLSTM-based sequential learning, classification layers, diabetic retinopathy prediction, and performance evaluation.
 
 ![Proposed Hybrid Xception BiLSTM Framework](Images/proposed_hybrid_xception_bilstm_framework.png)
 
@@ -34,7 +57,11 @@ The proposed framework includes dataset preprocessing, Xception-based feature ex
 
 ## Model Architecture
 
-The model combines Xception and BiLSTM in a hybrid architecture. Xception extracts spatial features from retinal fundus images. These extracted features are then passed into a BiLSTM layer to learn contextual relationships. Finally, dense layers and a softmax output layer are used for multi-class diabetic retinopathy classification.
+The model combines Xception and BiLSTM in a hybrid architecture.
+
+Xception is used as the base feature extractor because it uses depthwise separable convolutions, which help extract strong spatial features with reduced computational complexity. The extracted feature maps are reshaped into sequential format and passed into a Bidirectional LSTM layer.
+
+BiLSTM learns contextual relationships from both forward and backward directions. This helps the model capture feature dependencies that may be useful for diabetic retinopathy severity classification.
 
 ![Xception BiLSTM Architecture](Images/xception_bilstm_architecture.png)
 
@@ -42,18 +69,18 @@ The model combines Xception and BiLSTM in a hybrid architecture. Xception extrac
 
 ## Dataset
 
-The project uses the IDRiD retinal fundus image dataset for diabetic retinopathy classification.
+This project uses the IDRiD retinal fundus image dataset for diabetic retinopathy classification.
 
-The original dataset contains multiple diabetic retinopathy severity grades. Due to class imbalance, one highly underrepresented class was removed, and the remaining classes were relabelled into four classes for model training.
+The dataset contains retinal fundus images with diabetic retinopathy severity labels. The original dataset contains multiple disease grades. Due to class imbalance, one highly underrepresented class was removed, and the remaining classes were relabelled into four classes.
 
 ### Final Class Distribution
 
 | New Class Label | Original Grade | Number of Images |
 | --------------- | -------------: | ---------------: |
-| 0               |        Grade 0 |              134 |
-| 1               |        Grade 2 |              136 |
-| 2               |        Grade 3 |               74 |
-| 3               |        Grade 4 |               49 |
+| Class 0         |        Grade 0 |              134 |
+| Class 1         |        Grade 2 |              136 |
+| Class 2         |        Grade 3 |               74 |
+| Class 3         |        Grade 4 |               49 |
 
 The raw dataset is not included in this repository due to dataset size and usage restrictions.
 
@@ -61,13 +88,15 @@ The raw dataset is not included in this repository due to dataset size and usage
 
 ## Class Distribution
 
-The following chart shows the final diabetic retinopathy class distribution after preprocessing and relabelling.
+The class distribution chart shows the final diabetic retinopathy class balance after preprocessing and relabelling.
 
 ![Class Distribution](Images/class_distribution.png)
 
 ---
 
-## Tools and Technologies Used
+## Tools and Technologies
+
+The following tools and technologies were used in this project:
 
 * Python
 * Google Colab
@@ -81,43 +110,95 @@ The following chart shows the final diabetic retinopathy class distribution afte
 * Matplotlib
 * Seaborn
 * Scikit-learn
+* Jupyter Notebook
 
 ---
 
 ## Project Workflow
 
-1. Dataset loading and path configuration
-2. Data cleaning and label preprocessing
-3. Class imbalance handling
-4. Image preprocessing and resizing
-5. Data augmentation
-6. Train-validation split
-7. Custom data generator creation
-8. Xception-based spatial feature extraction
-9. BiLSTM-based sequential feature learning
-10. Model training
-11. Model evaluation
-12. Confusion matrix analysis
-13. Sample prediction visualization
-14. Result interpretation and conclusion
+The project follows a complete deep learning workflow:
+
+1. Dataset loading
+2. Image path configuration
+3. Label preprocessing
+4. Class imbalance handling
+5. Class relabelling
+6. Image preprocessing and resizing
+7. Data augmentation
+8. Train-validation split
+9. Custom data generator creation
+10. Xception feature extraction
+11. BiLSTM sequential feature learning
+12. Model training
+13. Model evaluation
+14. Confusion matrix analysis
+15. Sample prediction visualization
+16. Result interpretation
+
+---
+
+## Data Preprocessing
+
+The preprocessing stage prepared the retinal fundus images for deep learning model training.
+
+The main preprocessing steps included:
+
+* Loading retinal image paths and labels
+* Removing underrepresented class samples
+* Relabelling diabetic retinopathy classes
+* Resizing images to match Xception input size
+* Normalizing image pixel values
+* Splitting the dataset into training and validation sets
+* Applying data augmentation to improve generalization
+
+---
+
+## Data Augmentation
+
+Data augmentation was used to reduce overfitting and improve model robustness. Since the dataset size was limited, augmentation helped generate variations of retinal images during training.
+
+The augmentation techniques included:
+
+* Rotation
+* Horizontal flipping
+* Zooming
+* Brightness adjustment
+* Width and height shifting
+
+These techniques help the model learn more general image features instead of memorizing the training data.
 
 ---
 
 ## Model Development
 
-The proposed model uses a hybrid deep learning architecture.
+The hybrid model was built using transfer learning and sequential learning.
 
-### Xception Feature Extraction
+### Xception Feature Extractor
 
-Xception is used as the base model for extracting spatial features from retinal fundus images. It uses depthwise separable convolutions, which help reduce computational complexity while maintaining strong feature extraction capability.
+Xception was used as the base CNN model. The top classification layer was removed so that the model could be used as a feature extractor.
 
-### BiLSTM Sequential Learning
+Xception helps capture spatial features such as:
 
-The extracted feature maps from Xception are reshaped into sequential format and passed into a Bidirectional LSTM layer. BiLSTM helps the model learn contextual relationships from both forward and backward directions.
+* Retinal texture patterns
+* Blood vessel structure
+* Lesion-related visual patterns
+* Fundus image abnormalities
 
-### Classification Layer
+### BiLSTM Layer
 
-The final layers include dense, dropout, and softmax layers. The softmax layer predicts the diabetic retinopathy class.
+After extracting features using Xception, the feature maps were reshaped and passed into a BiLSTM layer. The BiLSTM layer learns contextual relationships between extracted features.
+
+This helps the model better understand feature dependencies that may be useful for diabetic retinopathy grading.
+
+### Classification Layers
+
+The final classification stage includes:
+
+* Dense layer
+* Dropout layer
+* Softmax output layer
+
+The softmax layer predicts the diabetic retinopathy class.
 
 ---
 
@@ -146,7 +227,7 @@ The hybrid Xception–BiLSTM model achieved the following performance:
 | AUC Score           | 0.8956 |
 | Weighted F1-score   | 0.6692 |
 
-The model achieved moderate validation performance and showed strong learning capability on the training dataset. The difference between training and validation accuracy indicates that further improvements can be made through larger datasets, stronger augmentation, and better imbalance handling.
+The model achieved moderate validation accuracy and strong training accuracy. This shows that the model learned useful patterns from the training dataset. However, the difference between training and validation performance suggests that the model may still be affected by overfitting and class imbalance.
 
 ---
 
@@ -159,56 +240,69 @@ The model achieved moderate validation performance and showed strong learning ca
 | Class 2 |    0.5000 | 0.3333 |   0.4000 |
 | Class 3 |    0.5000 | 0.3333 |   0.4000 |
 
-The model performed better on Class 0 and Class 1. Performance was lower for Class 2 and Class 3 because of class imbalance and visual similarity between advanced diabetic retinopathy severity stages.
+The model performed better on Class 0 and Class 1. Performance was weaker for Class 2 and Class 3 because those classes had fewer images and more visual similarity between advanced diabetic retinopathy stages.
 
 ---
 
 ## Confusion Matrix
 
-The confusion matrix shows how well the model predicted each diabetic retinopathy class compared with the actual class labels.
+The confusion matrix shows how well the model predicted each diabetic retinopathy class compared with the actual labels.
 
 ![Confusion Matrix](Images/confusion_matrix.png)
+
+From the confusion matrix, the model shows stronger performance for lower severity classes and more confusion between higher severity classes.
 
 ---
 
 ## Sample Predictions
 
-The sample prediction output compares actual diabetic retinopathy labels with predicted labels for selected retinal fundus images.
+The sample prediction output compares actual diabetic retinopathy labels with predicted labels for selected validation images.
 
 ![Sample Predictions](Images/sample_predictions.png)
+
+The sample predictions show how the trained model performs on unseen retinal fundus images.
 
 ---
 
 ## Key Findings
 
-* Xception successfully extracted important spatial features from retinal fundus images.
+The key findings from this project are:
+
+* Xception successfully extracted spatial features from retinal fundus images.
 * BiLSTM helped learn contextual relationships from extracted feature sequences.
-* Data preprocessing and augmentation improved model training stability.
+* Data augmentation improved model training stability.
 * The model achieved 68.75% validation accuracy.
-* The model performed better on lower diabetic retinopathy classes.
-* Higher severity classes showed more misclassification due to limited image samples and class imbalance.
-* The hybrid Xception–BiLSTM approach provides a strong foundation for automated diabetic retinopathy screening research.
+* The model performed better on lower diabetic retinopathy severity classes.
+* Higher severity classes showed more misclassification due to class imbalance.
+* The hybrid Xception–BiLSTM approach provides a strong foundation for diabetic retinopathy classification research.
 
 ---
 
 ## Limitations
 
+This project has the following limitations:
+
 * The dataset size was relatively small.
 * The dataset was imbalanced across diabetic retinopathy severity classes.
+* One underrepresented class was removed to improve training stability.
+* The model was trained and validated on one main dataset.
 * External validation on other datasets was not performed.
 * The model may not generalize well to all real-world clinical environments without further testing.
-* Further improvements are required before clinical deployment.
+* The model is not ready for direct clinical deployment.
 
 ---
 
 ## Future Improvements
 
-* Use a larger and more balanced retinal fundus image dataset.
-* Test the model on external datasets such as APTOS, EyePACS, or Messidor.
-* Apply advanced data augmentation and oversampling methods.
-* Add Grad-CAM explainability to highlight important retinal regions used by the model.
-* Compare performance with ResNet50, DenseNet, EfficientNet, and Vision Transformer models.
-* Improve deployment readiness by creating a simple web application for demonstration.
+Future improvements can include:
+
+* Using a larger and more balanced retinal image dataset.
+* Testing the model on external datasets such as APTOS, EyePACS, or Messidor.
+* Applying advanced oversampling or class balancing techniques.
+* Adding Grad-CAM explainability to highlight important retinal regions.
+* Comparing the model with ResNet50, DenseNet, EfficientNet, and Vision Transformer models.
+* Fine-tuning more layers of Xception for improved performance.
+* Deploying the model as a simple web application for demonstration.
 
 ---
 
@@ -242,46 +336,60 @@ Diabetic-Retinopathy-Detection-Using-Hybrid-Xception-BiLSTM/
 
 ## Files Description
 
-| File/Folder        | Description                                         |
-| ------------------ | --------------------------------------------------- |
-| `README.md`        | Complete project documentation                      |
-| `requirements.txt` | Required Python libraries                           |
-| `.gitignore`       | Files and folders ignored by Git                    |
-| `Data/README.md`   | Dataset information and instructions                |
-| `Images/`          | Project diagrams and result visualizations          |
-| `Reports/`         | Final research report                               |
-| `notebooks/`       | Jupyter notebook containing the full implementation |
+| File/Folder        | Description                                     |
+| ------------------ | ----------------------------------------------- |
+| `README.md`        | Complete project documentation                  |
+| `requirements.txt` | Python libraries required to run the project    |
+| `.gitignore`       | Files and folders ignored by Git                |
+| `Data/README.md`   | Dataset information and instructions            |
+| `Images/`          | Project diagrams and result visualizations      |
+| `Reports/`         | Final research report                           |
+| `notebooks/`       | Jupyter notebook containing full implementation |
 
 ---
 
 ## How to Run the Project
 
-1. Clone the repository.
+### Step 1: Clone the repository
 
 ```bash
 git clone https://github.com/pachipalapooja16/Diabetic-Retinopathy-Detection-Using-Hybrid-Xception-BiLSTM.git
 ```
 
-2. Install the required libraries.
+### Step 2: Open the project folder
+
+```bash
+cd Diabetic-Retinopathy-Detection-Using-Hybrid-Xception-BiLSTM
+```
+
+### Step 3: Install required libraries
 
 ```bash
 pip install -r requirements.txt
 ```
 
-3. Download the IDRiD dataset from the official source.
+### Step 4: Download the dataset
 
-4. Update the dataset path in the notebook.
+Download the IDRiD retinal fundus image dataset from the official source.
 
-5. Open and run the notebook.
+The raw dataset is not included in this repository due to size and usage restrictions.
+
+### Step 5: Update dataset path
+
+Open the notebook and update the dataset path according to your local system or Google Drive location.
 
 ```text
 notebooks/retinopathy_detection_final.ipynb
 ```
 
+### Step 6: Run the notebook
+
+Run all cells in the notebook to reproduce preprocessing, training, evaluation, and prediction results.
+
 ---
 
 ## Conclusion
 
-This project demonstrates a hybrid Xception–BiLSTM deep learning approach for diabetic retinopathy classification from retinal fundus images. The model combines spatial feature extraction with sequential contextual learning and achieved moderate validation performance.
+This project demonstrates a hybrid Xception–BiLSTM deep learning approach for diabetic retinopathy classification using retinal fundus images. The model combines spatial feature extraction with sequential contextual learning and achieved moderate validation performance.
 
 Although further improvements are required, the project provides a strong foundation for automated diabetic retinopathy detection and medical image classification research.
