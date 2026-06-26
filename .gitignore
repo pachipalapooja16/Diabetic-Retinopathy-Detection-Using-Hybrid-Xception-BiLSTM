@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.pyc
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# Dataset files
+Data/raw/
+Data/processed/
+
+# Model files
+*.h5
+*.keras
+*.pkl
+
+# System files
+.DS_Store
