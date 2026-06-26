@@ -69,9 +69,13 @@ BiLSTM learns contextual relationships from both forward and backward directions
 
 ## Dataset
 
-This project uses the IDRiD retinal fundus image dataset for diabetic retinopathy classification.
+This project uses the Indian Diabetic Retinopathy Image Dataset (IDRiD), which contains retinal fundus images with diabetic retinopathy severity labels.
 
-The dataset contains retinal fundus images with diabetic retinopathy severity labels. The original dataset contains multiple disease grades. Due to class imbalance, one highly underrepresented class was removed, and the remaining classes were relabelled into four classes.
+Dataset source:
+
+https://ieee-dataport.org/open-access/indian-diabetic-retinopathy-image-dataset-idrid
+
+The original dataset contains multiple diabetic retinopathy severity grades. Due to class imbalance, one highly underrepresented class was removed, and the remaining classes were relabelled into four classes for model training.
 
 ### Final Class Distribution
 
@@ -82,7 +86,7 @@ The dataset contains retinal fundus images with diabetic retinopathy severity la
 | Class 2         |        Grade 3 |               74 |
 | Class 3         |        Grade 4 |               49 |
 
-The raw dataset is not included in this repository due to dataset size and usage restrictions.
+The raw dataset is not uploaded to this repository due to dataset size and usage restrictions. To reproduce the project, download the dataset from the official source and update the dataset path in the notebook.
 
 ---
 
